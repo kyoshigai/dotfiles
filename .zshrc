@@ -121,7 +121,6 @@ alias ll='ls -hlAG'
 alias lll='ls -hlAG'
 alias grep='grep --color=auto'
 alias less='less -NM'
-alias gore='gore -autoimport'
 
 # git
 alias ga='git add'
@@ -137,9 +136,12 @@ export GOPATH=$HOME/go
 export GOBIN=$HOME/go/bin
 export PATH="$PATH:$GOPATH"
 export PATH="$PATH:$GOBIN"
+alias gore='gore -autoimport'
+alias gocov='go test -shuffle=on -race -coverprofile=coverage.out ./... && go tool cover -html=out'
 
 # python
 alias ap8='autopep8'
+alias python='python3'
 
 # vim
 alias vi='nvim'
@@ -160,6 +162,17 @@ export NVM_DIR="$HOME/.nvm"
   [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
   [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
+# starship
+eval "$(starship init zsh)"
+alias fgcp="
+  gcloud config configurations list \
+    | awk '{ print \$1,\$3,\$4 }' \
+    | column -t \
+    | fzf --header-lines=1 \
+    | awk '{ print \$1 }' \
+    | xargs -r gcloud config configurations activate
+"
+
 # others
 export LC_CTYPE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
@@ -169,3 +182,20 @@ export CPPFLAGS="-I/opt/homebrew/opt/zlib/include"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+export PATH="/opt/homebrew/bin:$PATH"
+export PATH="/opt/homebrew/opt/binutils/bin:$PATH"
+export PATH="/opt/homebrew/opt/curl/bin:$PATH"
+export PATH="/opt/homebrew/opt/node/bin:$PATH"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# claude
+export PATH="$HOME/.local/bin:$PATH"
+
+# source ~/.nvm/nvm.sh
+# export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
+
+export DOCKER_BUILDKIT=0
+
+# trialconect
+export NPM_TOKEN=$(gcloud auth print-access-token)
